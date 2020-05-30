@@ -7,7 +7,6 @@ pytrends = TrendReq(hl='en-US', tz=360)
 need to build payload with keywords provided by user to return dataframe
 '''
 def fetch_dataset(keyword, start_date, end_date, location):
-    #keywords = ["mask", "coronavirus symptoms"]
 
     start_date_dt = datetime.strptime(start_date, '%b %d %Y')
     end_date_dt = datetime.strptime(end_date, '%b %d %Y')
@@ -42,7 +41,7 @@ def fetch_dataset(keyword, start_date, end_date, location):
                                 sleep=0)
 
     # take hourly data and convert into average daily data
-    #df = df.resample('D').mean()
+    df = df.resample('D').mean()
     df = df.round(0)
 
     print(df)
