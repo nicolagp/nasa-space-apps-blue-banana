@@ -13,10 +13,16 @@ def get_interest():
     keyword = request.args.get("keyword")
     country = request.args.get("country")
 
-    trend = fetch_dataset(keyword, country)
+    # trend = fetch_dataset(keyword, country)
     cases, deaths = fetch_covid(country)
 
-    return "TO DO..."
+    cases.index = cases.index.format()
+    deaths.index = deaths.index.format()
+    d = {
+        "cases": cases.to_dict(),
+        "deaths": deaths.to_dict()
+     }
+    return jsonify(d)
 
 def fetch_covid(country):
     """
