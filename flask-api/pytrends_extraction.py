@@ -1,16 +1,21 @@
 from pytrends.request import TrendReq
+pytrends = TrendReq(hl='en-US', tz=360,
+                    timeout=(10,25),
+                    proxies=['https://34.203.233.13:80',],
+                    retries=2,
+                    backoff_factor=0.1,
+                    requests_args={'verify':False})
 from datetime import datetime
 
 
 
-def fetch_dataset(keyword, location): 
+def fetch_dataset(keyword, location):
     '''
     need to build payload with keywords provided by user to return dataframe
-    '''    
-    pytrends = TrendReq(hl='en-US', tz=360)
+    '''
     key_list = [keyword]
     start_date_dt = datetime.strptime("Jan 1 2020", '%b %d %Y')
-    end_date_dt = datetime.datetime.now()
+    end_date_dt = datetime.now()
 
     pytrends.build_payload(key_list,
                            cat=0,
@@ -32,18 +37,18 @@ def fetch_dataset(keyword, location):
                                 cat=0,
                                 geo=location,
                                 gprop='',
-                                sleep=0)
+                                sleep=60)
 
     # take hourly data and convert into average daily data
-    df = df.resample('D').mean()
+    df = df.resample('D').mean().bfill()
     df = df.round(0)
 
     return df
 
 
 if __name__ == "__main__":
-    keyword = ["mask"]
+    keyword = ["cars"]
     start = 'May 1 2020'
     end = 'May 30 2020'
     location = ''
-    fetch_dataset(keyword, start, end, location)
+    fetch_dataset(keyword, location)
