@@ -10,6 +10,8 @@ def fetch_dataset(keyword, location):
     '''
     key_list = [keyword]
     start_date_dt = datetime.strptime("Jan 1 2020", '%b %d %Y')
+    #end_date_dt = datetime.now()
+    #end_date_dt = datetime.strptime("May 30 2020", '%b %d %Y')
     end_date_dt = datetime.now()
 
     pytrends.build_payload(key_list,
@@ -32,17 +34,18 @@ def fetch_dataset(keyword, location):
                                 cat=0,
                                 geo=location,
                                 gprop='',
-                                sleep=60)
+                                sleep=0)
 
     # take hourly data and convert into average daily data
     df = df.resample('D').mean().bfill()
     df = df.round(0)
+    print(df.tail(30))
 
     return df
 
 
 if __name__ == "__main__":
-    keyword = ["cars"]
+    keyword = "cars"
     start = 'May 1 2020'
     end = 'May 30 2020'
     location = ''
