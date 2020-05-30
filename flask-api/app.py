@@ -14,14 +14,27 @@ def get_interest():
     country = request.args.get("country")
 
     trend = fetch_dataset(keyword, country)
-    cases, deaths = fetch_covid(keyword, country)
+    cases, deaths = fetch_covid(country)
 
     return "TO DO..."
 
-def fetch_covid(keyword, country):
+def fetch_covid(country):
+    """
+    country is formatted in ISO-2
+    returns two dataframes, cases and deaths
+    """
     url = "https://github.com/microsoft/Bing-COVID-19-Data/raw/master/data/Bing-COVID19-Data.csv"
     df = pd.read_csv(url)
 
+    # set index to date and sort
+    df["Updated"] = pd.to_datetime(df["Updated"])
+    df = df.set_index(df["Updated"]).drop("Updated", axis=1)
+    df = df.sort_index()
+
+    # aggregate country
+    df = df[df["ISO2"] == country].groupby("Updated").sum()
+
+    return df["ConfirmedChange"], df["DeathsChange"]
 
 
 if __name__ == '__main__':
