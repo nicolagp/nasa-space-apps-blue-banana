@@ -1,10 +1,10 @@
 import React from "react";
 
-const NothingFound = () => (
+const NoImages = () => (
   <div>
-    <h2>Nothing Found</h2>
+    <h2>Not Found</h2>
     <p>Please try a different search term</p>
   </div>
 );
 
-export default NothingFound;
+export default NoImages;
