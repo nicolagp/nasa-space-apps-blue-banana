@@ -16,7 +16,8 @@ const Form = ({ handleSubmit, history }) => {
   const [locationEntry, setLocationEntry] = useState("");
   // update location state
   const updateLocationInput = e => {
-    setLocationEntry(e.target.value);
+    console.log(e);
+    setLocationEntry(e);
   };
 
   return (
@@ -32,8 +33,8 @@ const Form = ({ handleSubmit, history }) => {
         value={searchEntry}
       />
 
-      <Select defaultValue="WW" onChange={e => updateLocationInput}>
-        <Option value="WW">Worldwide</Option>
+      <Select defaultValue="Location" onChange={updateLocationInput}>
+        <Option value="WW" >Worldwide</Option>
         <Option value="BR">Brasil</Option>
         <Option value="US">United States</Option>
         <Option value="CN">China</Option>
