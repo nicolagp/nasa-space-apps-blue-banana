@@ -38,7 +38,10 @@ def fetch_dataset(keyword, location, start_date, end_date):
                                 sleep=0)
 
     # take hourly data and convert into average daily data
-    df = df.resample('D').mean().bfill()
+    print("AFTER REQUEST")
+    print("Payload: ", keyword, start_date_dt, end_date_dt)
+    print(df)
+    df = df.iloc[::24]
     df = df.round(0)
     df[keyword] = df[keyword].replace(to_replace=0, method='ffill')
 

@@ -26,10 +26,9 @@ def get_interest():
 
     cases, deaths, start_date, end_date = fetch_covid(country)
     trend = fetch_dataset(keyword, country, start_date, end_date)
-    trend = trend.iloc[:cases.shape[0]]
 
-    corr_cases, shift_cases = calculate_statistics(cases, trend)
-    corr_deaths, shift_deaths = calculate_statistics(deaths, trend)
+    corr_cases, shift_cases = calculate_statistics(cases.iloc[:trend.shape[0]], trend)
+    corr_deaths, shift_deaths = calculate_statistics(deaths.iloc[:trend.shape[0]], trend)
 
     trend.index = trend.index.format()
     cases.index = cases.index.format()
@@ -145,15 +144,16 @@ def calculate_statistics(data, trend):
     returns correlation coefficient between time series
     """
     # calculate correlations and find best lag
-    best_corr = 0
-    lag = 0
-    for i in range(15):
-        curr = np.corrcoef(data.shift(-i).ffill(), trend)[0, 1]
-        if abs(curr) > abs(best_corr):
-            best_corr = curr
-            lag = i
+    return np.corrcoef(data, trend)[0, 1], 0
+    # best_corr = 0
+    # lag = 0
+    # for i in range(15):
+    #     curr = np.corrcoef(data.shift(-i).ffill(), trend)[0, 1]
+    #     if abs(curr) > abs(best_corr):
+    #         best_corr = curr
+    #         lag = i
 
-    return best_corr, lag
+    # return best_corr, lag
 
 
 if __name__ == '__main__':
