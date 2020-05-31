@@ -8,6 +8,7 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+
 @app.route('/trends/api/interest', methods=['GET'])
 def get_interest():
     """
@@ -19,9 +20,9 @@ def get_interest():
     cases, deaths, start_date, end_date = fetch_covid(country)
     trend = fetch_dataset(keyword, country, start_date, end_date)
     trend = trend.iloc[:cases.shape[0]]
-    
+
     corr_cases, shift_cases = calculate_statistics(cases, trend)
-    corr_deaths, shift_deaths = calculate_statistics(deaths, trend) 
+    corr_deaths, shift_deaths = calculate_statistics(deaths, trend)
 
     trend.index = trend.index.format()
     cases.index = cases.index.format()
@@ -35,9 +36,10 @@ def get_interest():
         "corr_deaths": corr_deaths,
         "shift_cases": shift_cases,
         "shift_deaths": shift_deaths,
-     }
+    }
 
     return jsonify(d)
+
 
 def fetch_covid(country):
     """
@@ -54,7 +56,9 @@ def fetch_covid(country):
     # aggregate country
     df = df[df["ISO2"] == country].groupby("Updated").sum()
 
-    return df["ConfirmedChange"], df["DeathsChange"], df.iloc[0].name, df.iloc[-1].name
+    return df["ConfirmedChange"], df["DeathsChange"], df.iloc[0].name, df.iloc[
+        -1].name
+
 
 def calculate_statistics(data, trend):
     """
@@ -78,12 +82,11 @@ if __name__ == '__main__':
 
     # update csv file
     # Download the file from `url` and save it locally under `file_name`:
-    with urllib.request.urlopen(url) as response, open(file_name, 'wb') as out_file:
+    with urllib.request.urlopen(url) as response, open(file_name,
+                                                       'wb') as out_file:
         shutil.copyfileobj(response, out_file)
 
     app.run(debug=True)
-
-
 """
 {
     trend: {
