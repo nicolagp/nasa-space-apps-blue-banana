@@ -40,37 +40,85 @@ def get_interest():
 
     labels = list(trend.index)
 
-    d = {
+    # d = {
+    #     "labels": labels,
+    #     "datasets": [
+    #             {
+    #                 "label": "{} trends".format(keyword),
+    #                 "data": list(100*minmax_scale(trend.values)),
+    #                 "background": "#fff",
+    #                 "borderColor": "rgba(255,99,132,1)",
+    #                 "fill": "false",
+    #             },
+    #             { 
+    #                 "label": "cases",
+    #                 "data": list(100*minmax_scale(cases.values)),
+    #                 "background": "#fff",
+    #                 "borderColor": "#192a51",
+    #                 "fill": "false",
+    #             },
+    #             {
+    #                 "label": "deaths",
+    #                 "data": list(100*minmax_scale(deaths.values)),
+    #                 "background": "#fff",
+    #                 "borderColor": "#967aa1",
+    #                 "fill": "false",
+    #             }
+    #     ],
+    #     "corr_cases": corr_cases,
+    #     "corr_deaths": corr_deaths,
+    #     "shift_cases": shift_cases,
+    #     "shift_deaths": shift_deaths,
+    # }
+
+    d1 = {
         "labels": labels,
         "datasets": [
                 {
                     "label": "{} trends".format(keyword),
-                    "data": list(100*minmax_scale(trend.values)),
+                    "data": list(max(cases.values)*minmax_scale(trend.values)),
                     "background": "#fff",
                     "borderColor": "rgba(255,99,132,1)",
                     "fill": "false",
                 },
                 { 
                     "label": "cases",
-                    "data": list(100*minmax_scale(cases.values)),
+                    "data": list(cases.values),
                     "background": "#fff",
                     "borderColor": "#192a51",
                     "fill": "false",
                 },
+        ],
+    }
+
+    d2 = {
+        "labels": labels,
+        "datasets": [
+                {
+                    "label": "{} trends".format(keyword),
+                    "data": list(max(deaths.values)*minmax_scale(trend.values)),
+                    "background": "#fff",
+                    "borderColor": "rgba(255,99,132,1)",
+                    "fill": "false",
+                },
                 {
                     "label": "deaths",
-                    "data": list(100*minmax_scale(deaths.values)),
+                    "data": list(deaths.values),
                     "background": "#fff",
                     "borderColor": "#967aa1",
                     "fill": "false",
                 }
         ],
-        "corr_cases": corr_cases,
-        "corr_deaths": corr_deaths,
-        "shift_cases": shift_cases,
-        "shift_deaths": shift_deaths,
     }
 
+    d = [
+        d1,
+        d2,
+        corr_cases,
+        corr_deaths,
+        shift_cases,
+        shift_deaths,
+    ]
     return jsonify(d)
 
 

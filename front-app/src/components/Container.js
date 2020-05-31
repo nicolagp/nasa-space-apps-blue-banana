@@ -13,10 +13,17 @@ const Container = ({ searchTerm, location }) => {
 
   return (
     <div className="container">
-      {loading ? <Loader /> : <Line
-                                data={images}
-                                options={{}}
-                              />
+      {loading ? <Loader /> : 
+      <div>
+        <Line
+          data={images[0]}
+          options={{}}
+        />
+        <Line
+          data={images[1]}
+          options={{}}
+        />
+      </div>
       }
     </div>
   );
