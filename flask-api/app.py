@@ -5,11 +5,17 @@ import pandas as pd
 import numpy as np
 from pytrends_extraction import fetch_dataset
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
+
 
 app = Flask(__name__)
 
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/trends/api/interest": {"origins": "http://localhost:port"}})
+
 
 @app.route('/trends/api/interest', methods=['GET'])
+@cross_origin(origin='localhost',headers=['Content- Type','Authorization'])
 def get_interest():
     """
     return interest over time based on query arguments
