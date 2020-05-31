@@ -13,7 +13,7 @@ def fetch_dataset(keyword, location, start_date, end_date):
     start_date_dt=start_date
     #end_date_dt = datetime.now()
     #end_date_dt = datetime.strptime("May 30 2020", '%b %d %Y')
-    end_date_dt = datetime.now()
+    end_date_dt = end_date
 
     # pytrends.build_payload(key_list,
     #                        cat=0,
