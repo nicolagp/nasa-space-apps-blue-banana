@@ -17,7 +17,7 @@ def fetch_dataset(keyword, location, start_date, end_date):
 
     # pytrends.build_payload(key_list,
     #                        cat=0,
-    #                        timeframe='today 5-y',
+    #                        timeframe='today 5-m',
     #                        geo=location,
     #                        gprop='')
 
@@ -40,7 +40,7 @@ def fetch_dataset(keyword, location, start_date, end_date):
     # take hourly data and convert into average daily data
     df = df.resample('D').mean().bfill()
     df = df.round(0)
-    print(df.tail(30))
+    df[keyword] = df[keyword].replace(to_replace=0, method='ffill')
 
     return df[keyword]
 

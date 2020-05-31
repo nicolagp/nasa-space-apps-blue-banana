@@ -45,21 +45,21 @@ def get_interest():
         "datasets": [
                 {
                     "label": "{} trends".format(keyword),
-                    "data": list(minmax_scale(trend.values)),
+                    "data": list(100*minmax_scale(trend.values)),
                     "background": "#fff",
                     "borderColor": "rgba(255,99,132,1)",
                     "fill": "false",
                 },
                 { 
                     "label": "cases",
-                    "data": list(minmax_scale(cases.values)),
+                    "data": list(100*minmax_scale(cases.values)),
                     "background": "#fff",
                     "borderColor": "#192a51",
                     "fill": "false",
                 },
                 {
                     "label": "deaths",
-                    "data": list(minmax_scale(deaths.values)),
+                    "data": list(100*minmax_scale(deaths.values)),
                     "background": "#fff",
                     "borderColor": "#967aa1",
                     "fill": "false",
