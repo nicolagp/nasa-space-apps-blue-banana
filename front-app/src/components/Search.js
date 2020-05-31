@@ -7,7 +7,7 @@ const Search = ({ searchTerm, location }) => {
     useEffect(() => {
         runSearch(searchTerm, location);
         // eslint-disable-next-line
-    }, []);
+    });
 
     return (
         <div className="chart-container">
