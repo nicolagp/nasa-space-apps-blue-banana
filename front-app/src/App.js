@@ -38,7 +38,7 @@ class App extends Component {
                 render={() => <br />}
               />
             </Switch>
-            <Chart />
+            {/* <Chart /> */}
 
           </div>
         </HashRouter>

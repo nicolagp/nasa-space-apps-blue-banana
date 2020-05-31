@@ -15,7 +15,7 @@ const Container = ({ searchTerm, location }) => {
     <div className="container">
       {loading ? <Loader /> : <Line
                                 data={images}
-                                options={{ }}
+                                options={{}}
                               />
       }
     </div>

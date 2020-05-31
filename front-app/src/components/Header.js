@@ -4,7 +4,7 @@ import Form from "./Form";
 const Header = ({ history, handleSubmit }) => {
   return (
     <div>
-      <h1>BlueBanana</h1>
+      <h1>COVID-19 Trends</h1>
       <Form history={history} handleSubmit={handleSubmit} />
     </div>
   );

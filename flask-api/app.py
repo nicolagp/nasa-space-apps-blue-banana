@@ -6,6 +6,7 @@ import numpy as np
 from pytrends_extraction import fetch_dataset
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
+from sklearn.preprocessing import minmax_scale
 
 
 app = Flask(__name__)
@@ -34,22 +35,34 @@ def get_interest():
     cases.index = cases.index.format()
     deaths.index = deaths.index.format()
 
+    # normalize data
+
+
     labels = list(trend.index)
 
     d = {
         "labels": labels,
         "datasets": [
                 {
-                    "label": "trends",
-                    "data": list(trend.values),
+                    "label": "{} trends".format(keyword),
+                    "data": list(minmax_scale(trend.values)),
+                    "background": "#fff",
+                    "borderColor": "rgba(255,99,132,1)",
+                    "fill": "false",
                 },
                 { 
                     "label": "cases",
-                    "data": list(cases.values),
+                    "data": list(minmax_scale(cases.values)),
+                    "background": "#fff",
+                    "borderColor": "#192a51",
+                    "fill": "false",
                 },
                 {
                     "label": "deaths",
-                    "data": list(deaths.values),
+                    "data": list(minmax_scale(deaths.values)),
+                    "background": "#fff",
+                    "borderColor": "#967aa1",
+                    "fill": "false",
                 }
         ],
         "corr_cases": corr_cases,
