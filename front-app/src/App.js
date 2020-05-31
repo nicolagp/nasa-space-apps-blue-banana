@@ -5,35 +5,25 @@ import NewForm from "./components/NewForm";
 import Search from "./components/Search";
 import axios from "axios";
 
-const BASE_URI = 'http://127.0.0.1:5000/';
 
-const client = axios.create({
-  baseURL: BASE_URI
-});
+const client = axios.get('http://127.0.0.1:5000/trends/api/interest?keyword="coronavirus"&country=BR')
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.log(
+      "Encountered an error with fetching and parsing data",
+      error
+    );
+  });
 
 class App extends Component {
   // Prevent page reload, set URL and push history on submit
   handleSubmit = (e, history, searchInput, locationInput) => {
-
-    client({
-      method: 'get',
-      url: `trends/api/interest?keyword="${searchInput}"&country=${locationInput}`
-    })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(
-          "Encountered an error with fetching and parsing data",
-          error
-        );
-      })
-
     e.preventDefault();
     let url = `/search/${searchInput}/${locationInput}`;
     history.push(url);
   };
-
 
   render() {
     return (
@@ -52,10 +42,9 @@ class App extends Component {
               <Route
                 path="/search/:searchInput/:locationInput"
                 render={props => (
-                  <div>
-                    <Search searchTerm={props.match.params.searchInput} location={props.match.params.locationInput}>
-                    </Search>
-                  </div>
+                  <Search
+                    searchTerm={props.match.params.searchInput}
+                    location={props.match.params.locationInput} />
                 )}
               />
               <Route

@@ -17,7 +17,8 @@ const TrendContextProvider = props => {
             url: `/trends/api/interest?keyword="${keyword}"&country=${location}`
         })
             .then(response => {
-                console.log(response.data);
+                setChartValues(response.data);
+                setLoading(false);
             })
             .catch(error => {
                 console.log(
