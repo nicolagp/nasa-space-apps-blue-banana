@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { TrendContext } from "../context/TrendContext";
 import Loader from "./Loader";
-import {Line} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 
 const Container = ({ searchTerm, location }) => {
@@ -14,9 +14,9 @@ const Container = ({ searchTerm, location }) => {
   return (
     <div className="container">
       {loading ? <Loader /> : <Line
-                                data={images}
-                                options={{}}
-                              />
+        data={images}
+        options={{}}
+      />
       }
     </div>
   );
