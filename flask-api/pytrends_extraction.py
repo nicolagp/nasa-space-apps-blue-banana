@@ -4,21 +4,22 @@ from datetime import datetime
 
 
 
-def fetch_dataset(keyword, location):
+def fetch_dataset(keyword, location, start_date, end_date):
     '''
     need to build payload with keywords provided by user to return dataframe
     '''
     key_list = [keyword]
-    start_date_dt = datetime.strptime("Jan 1 2020", '%b %d %Y')
+    # start_date_dt = datetime.strptime("Jan 21 2020", '%b %d %Y')
+    start_date_dt=start_date
     #end_date_dt = datetime.now()
     #end_date_dt = datetime.strptime("May 30 2020", '%b %d %Y')
     end_date_dt = datetime.now()
 
-    pytrends.build_payload(key_list,
-                           cat=0,
-                           timeframe='today 5-y',
-                           geo=location,
-                           gprop='')
+    # pytrends.build_payload(key_list,
+    #                        cat=0,
+    #                        timeframe='today 5-y',
+    #                        geo=location,
+    #                        gprop='')
 
 
     # return dataframe of interest given the keywords list
@@ -41,7 +42,7 @@ def fetch_dataset(keyword, location):
     df = df.round(0)
     print(df.tail(30))
 
-    return df
+    return df[keyword]
 
 
 if __name__ == "__main__":
