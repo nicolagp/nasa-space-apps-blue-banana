@@ -56,8 +56,7 @@ def fetch_covid(country):
     # aggregate country
     df = df[df["ISO2"] == country].groupby("Updated").sum()
 
-    return df["ConfirmedChange"], df["DeathsChange"], df.iloc[0].name, df.iloc[
-        -1].name
+    return df["ConfirmedChange"], df["DeathsChange"], df.iloc[0].name, df.iloc[-1].name
 
 
 def calculate_statistics(data, trend):
