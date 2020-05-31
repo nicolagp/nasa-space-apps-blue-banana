@@ -34,10 +34,24 @@ def get_interest():
     cases.index = cases.index.format()
     deaths.index = deaths.index.format()
 
+    labels = list(trend.index)
+
     d = {
-        "trend": trend.to_dict(),
-        "cases": cases.to_dict(),
-        "deaths": deaths.to_dict(),
+        "labels": labels,
+        "datasets": [
+                {
+                    "label": "trends",
+                    "data": list(trend.values),
+                },
+                { 
+                    "label": "cases",
+                    "data": list(cases.values),
+                },
+                {
+                    "label": "deaths",
+                    "data": list(deaths.values),
+                }
+        ],
         "corr_cases": corr_cases,
         "corr_deaths": corr_deaths,
         "shift_cases": shift_cases,
