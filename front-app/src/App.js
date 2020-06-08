@@ -3,7 +3,6 @@ import TrendContextProvider from "./context/TrendContext";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import Header from "./components/Header";
 import Search from "./components/Search";
-import Chart from "./components/Chart"
 
 class App extends Component {
   // Prevent page reload, clear input, set URL and push history on submit

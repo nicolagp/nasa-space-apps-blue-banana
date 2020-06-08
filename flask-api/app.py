@@ -26,10 +26,9 @@ def get_interest():
 
     cases, deaths, start_date, end_date = fetch_covid(country)
     trend = fetch_dataset(keyword, country, start_date, end_date)
-    trend = trend.iloc[:cases.shape[0]]
 
-    corr_cases, shift_cases = calculate_statistics(cases, trend)
-    corr_deaths, shift_deaths = calculate_statistics(deaths, trend)
+    corr_cases, shift_cases = calculate_statistics(cases.iloc[:trend.shape[0]], trend)
+    corr_deaths, shift_deaths = calculate_statistics(deaths.iloc[:trend.shape[0]], trend)
 
     trend.index = trend.index.format()
     cases.index = cases.index.format()
@@ -40,37 +39,85 @@ def get_interest():
 
     labels = list(trend.index)
 
-    d = {
+    # d = {
+    #     "labels": labels,
+    #     "datasets": [
+    #             {
+    #                 "label": "{} trends".format(keyword),
+    #                 "data": list(100*minmax_scale(trend.values)),
+    #                 "background": "#fff",
+    #                 "borderColor": "rgba(255,99,132,1)",
+    #                 "fill": "false",
+    #             },
+    #             { 
+    #                 "label": "cases",
+    #                 "data": list(100*minmax_scale(cases.values)),
+    #                 "background": "#fff",
+    #                 "borderColor": "#192a51",
+    #                 "fill": "false",
+    #             },
+    #             {
+    #                 "label": "deaths",
+    #                 "data": list(100*minmax_scale(deaths.values)),
+    #                 "background": "#fff",
+    #                 "borderColor": "#967aa1",
+    #                 "fill": "false",
+    #             }
+    #     ],
+    #     "corr_cases": corr_cases,
+    #     "corr_deaths": corr_deaths,
+    #     "shift_cases": shift_cases,
+    #     "shift_deaths": shift_deaths,
+    # }
+
+    d1 = {
         "labels": labels,
         "datasets": [
                 {
                     "label": "{} trends".format(keyword),
-                    "data": list(100*minmax_scale(trend.values)),
+                    "data": list(max(cases.values)*minmax_scale(trend.values)),
                     "background": "#fff",
                     "borderColor": "rgba(255,99,132,1)",
                     "fill": "false",
                 },
                 { 
                     "label": "cases",
-                    "data": list(100*minmax_scale(cases.values)),
+                    "data": list(cases.values),
                     "background": "#fff",
                     "borderColor": "#192a51",
                     "fill": "false",
                 },
+        ],
+    }
+
+    d2 = {
+        "labels": labels,
+        "datasets": [
+                {
+                    "label": "{} trends".format(keyword),
+                    "data": list(max(deaths.values)*minmax_scale(trend.values)),
+                    "background": "#fff",
+                    "borderColor": "rgba(255,99,132,1)",
+                    "fill": "false",
+                },
                 {
                     "label": "deaths",
-                    "data": list(100*minmax_scale(deaths.values)),
+                    "data": list(deaths.values),
                     "background": "#fff",
                     "borderColor": "#967aa1",
                     "fill": "false",
                 }
         ],
-        "corr_cases": corr_cases,
-        "corr_deaths": corr_deaths,
-        "shift_cases": shift_cases,
-        "shift_deaths": shift_deaths,
     }
 
+    d = [
+        d1,
+        d2,
+        corr_cases,
+        corr_deaths,
+        shift_cases,
+        shift_deaths,
+    ]
     return jsonify(d)
 
 
@@ -97,15 +144,16 @@ def calculate_statistics(data, trend):
     returns correlation coefficient between time series
     """
     # calculate correlations and find best lag
-    best_corr = 0
-    lag = 0
-    for i in range(15):
-        curr = np.corrcoef(data.shift(-i).ffill(), trend)[0, 1]
-        if abs(curr) > abs(best_corr):
-            best_corr = curr
-            lag = i
+    return np.corrcoef(data, trend)[0, 1], 0
+    # best_corr = 0
+    # lag = 0
+    # for i in range(15):
+    #     curr = np.corrcoef(data.shift(-i).ffill(), trend)[0, 1]
+    #     if abs(curr) > abs(best_corr):
+    #         best_corr = curr
+    #         lag = i
 
-    return best_corr, lag
+    # return best_corr, lag
 
 
 if __name__ == '__main__':
